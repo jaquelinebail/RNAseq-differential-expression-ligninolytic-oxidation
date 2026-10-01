@@ -1,0 +1,11 @@
+name: rnaseq
+channels:
+  - conda-forge
+dependencies:
+  - sra-tools
+  - fastqc
+  - fastp
+  - salmon
+  - multiqc
+  - gffread
+prefix: /home/jaquebail/miniforge3/envs/rnaseq
