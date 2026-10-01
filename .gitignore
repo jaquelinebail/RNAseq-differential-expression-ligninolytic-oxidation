@@ -1,0 +1,6 @@
+data/
+results/quant/*/aux_info
+results/quant/*/libParams
+results/quant/*/logs
+work/
+.nextflow*
