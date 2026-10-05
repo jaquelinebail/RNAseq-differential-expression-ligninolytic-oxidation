@@ -2,6 +2,12 @@
 
 Differential expression analysis of public RNA-seq data from the white-rot fungus *Phanerochaete chrysosporium* RP-78 growing on spruce wood, comparing 40 h and 96 h of colonization, the two time points that bracket the onset of ligninolytic oxidation (Korripally et al., 2015, *Applied and Environmental Microbiology*; GEO GSE69461). The analysis recovers strong induction of class II (lignin/manganese) peroxidase genes at 96 h.
 
+## Key findings
+
+- Replicate structure was verified before testing: a run-level PCA showed that the GEO "barcode" label, not the "rep" label, identifies the three biological pools per time point.
+- 2,368 of 12,530 genes differ between 40 h and 96 h (padj < 0.05, abs(log2FC) >= 1); 1,409 remain significant when tested against a 2-fold threshold.
+- Nine of 17 class II (lignin/manganese) peroxidase genes are induced about 26- to 570-fold at 96 h, while other peroxidase families change much less, consistent with the original report of ligninolysis onset.
+
 ## Context
 
 This project builds on my MSc research on fungal laccases (lignin-modifying enzymes), applying a transcriptomics workflow (pseudo-alignment + DESeq2) to a well-characterized model organism. The sequenced strain and the reference genome are both RP-78.
@@ -21,8 +27,10 @@ This project builds on my MSc research on fungal laccases (lignin-modifying enzy
 
 GEO labels the 18 runs as "rep1-3 x barcode1-3". To determine which label corresponds to biological replication, each run was quantified separately (first 5 M reads) and a PCA was computed within each time point. The three runs sharing a barcode overlap almost completely, whereas the three barcodes form well-separated groups (separation of ~20-50 units versus ~1-2 units within a barcode). Barcodes were therefore treated as the three biological pools described in the original study, and the three runs of each barcode as technical re-sequencing, merged into one sample. This assignment is an inference from the data and from the paper's design (three replicate pools per time point), not an explicit statement in the GEO metadata.
 
-![Replicate structure, 40 h](results/deseq2/pca_test_40h.png)
-![Replicate structure, 96 h](results/deseq2/pca_test_96h.png)
+<p align="center">
+<img src="results/deseq2/pca_test_40h.png" width="48%" alt="Replicate structure, 40 h">
+<img src="results/deseq2/pca_test_96h.png" width="48%" alt="Replicate structure, 96 h">
+</p>
 
 ## Pipeline
 
@@ -45,8 +53,10 @@ GEO labels the 18 runs as "rep1-3 x barcode1-3". To determine which label corres
 
 For comparison, the original study reported 356 genes at least four times higher at 96 h at relatively high levels. The criteria, gene models and quantification method differ, so only the order of magnitude is comparable.
 
-![PCA](results/deseq2/pca_plot.png)
-![Volcano](results/deseq2/volcano_plot.png)
+<p align="center">
+<img src="results/deseq2/pca_plot.png" width="48%" alt="PCA, 40 h vs 96 h">
+<img src="results/deseq2/volcano_plot.png" width="48%" alt="Volcano plot, 96 h vs 40 h">
+</p>
 
 *PCA uses the 500 most variable genes. In the volcano plot, adjusted p-values below 1e-300 are capped at 300 on the axis.*
 
@@ -61,6 +71,10 @@ For comparison, the original study reported 356 genes at least four times higher
 Nine of the 17 class II genes are induced between ~26- and ~570-fold at 96 h, with very high expression (mean normalized counts from ~5,000 to ~340,000). The rest of the group is modestly induced (three genes, 2.6- to 3.9-fold), changes by less than 2-fold (four genes, two of them not significant), or is lower at 96 h (one gene). Other peroxidases change much less, with a few exceptions (three chloroperoxidase-like genes up 2.6- to 5.4-fold; a peroxiredoxin down ~5-fold). This agrees qualitatively with the original report of strongly upregulated lignin and manganese peroxidases at 96 h. Gene IDs of the original study (JGI v2.2) differ from those used here, so a gene-by-gene comparison was not possible.
 
 Eight of the class II genes (AGR57_14158, 14163, 14164, 14174, 14195, 14196, 14201, 14203) lie within about 96 kb of scaffold PchrRP-78_SC019, and five of them are among the most strongly induced (log2FC 4.7 to 8.9). Clustering of lignin peroxidase genes is described in the genome publication (Nature Biotechnology, 2004), which uses a different scaffold numbering, so the two clusters cannot be matched by name.
+
+<p align="center">
+<img src="results/deseq2/peroxidase_validation.png" width="65%" alt="Peroxidase genes, 96 h vs 40 h">
+</p>
 
 Full table: [`results/deseq2/peroxidase_genes_results.csv`](results/deseq2/peroxidase_genes_results.csv).
 
