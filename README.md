@@ -10,7 +10,7 @@ Differential expression analysis of public RNA-seq data from the white-rot fungu
 
 ## Context
 
-This project builds on my MSc research on fungal laccases (lignin-modifying enzymes), applying a transcriptomics workflow (pseudo-alignment + DESeq2) to a well-characterized model organism. The sequenced strain and the reference genome are both RP-78.
+This project builds on my MSc research on fungal laccases, a family of lignin-modifying enzymes. It applies a transcriptomics workflow (pseudo-alignment + DESeq2) to the peroxidase side of the same process in a well-characterized white-rot fungus. The sequenced strain and the reference genome are both RP-78.
 
 ## Data
 
@@ -41,7 +41,7 @@ GEO labels the 18 runs as "rep1-3 x barcode1-3". To determine which label corres
 
 **Quality control.** 95.5-96.4% of reads passed fastp filters in every run; adapter content 1.6-3.5%; duplication 38-60% (expected for RNA-seq, where highly expressed genes generate many identical reads).
 
-**Mapping (Salmon).** 66.6-69.1% of reads at 40 h and 73.9-79.7% at 96 h.
+**Mapping (Salmon).** 66.6-69.1% of reads at 40 h and 73.9-79.7% at 96 h. These rates are lower than typical for RNA-seq. The read totals reported by the original study (2.5 x 10^8 at 40 h, 1.6 x 10^8 at 96 h) are about 67% and 77% of the reads deposited in SRA, close to these rates, which suggests that the original counts refer to mapped reads; this was not verified.
 
 **Differential expression.** After filtering lowly expressed genes (at least 10 counts in at least 3 samples), 12,530 genes were tested.
 
@@ -86,11 +86,15 @@ Verifying the replicate structure before differential testing was essential here
 
 ## Limitations
 
-- Biological replication is three pools per time point. The estimated dispersion is low (median 0.0037), probably because each pool combines about 20 wood sections, so adjusted p-values are very small for modest changes. Gene lists are therefore interpreted by effect size (log2FC and expression level) and not by p-value alone.
-- The reference annotation (Ensembl Fungi/FungiDB) differs from the genome version used by the original study (JGI v2.2).
-- Mapping rates (67-80%) are lower than typical for RNA-seq.
-- Class II peroxidases cannot be separated into lignin and manganese peroxidases from the FungiDB descriptions.
-- No functional enrichment (GO) analysis was performed; it requires a gene-to-GO table that was not assembled for this project.
+- Replication: three pooled biological replicates per time point and low estimated dispersion (median 0.0037), probably because each pool combines about 20 wood sections. Adjusted p-values are very small even for modest changes, so gene lists are interpreted by effect size and expression level, not by p-value alone.
+- Comparison with the original study is qualitative: it used genome version v2.2 (JGI) and a different quantification pipeline, and its gene IDs cannot be matched one-to-one to the Ensembl Fungi/FungiDB annotation used here. Only the order of magnitude of induced genes and the direction of change of the peroxidase families are comparable.
+- No independent experimental validation (the original study used quantitative RT-PCR); the peroxidase analysis is a computational consistency check.
+
+## Possible extensions
+
+- Functional enrichment (GO) of the differentially expressed genes. It requires a gene-to-GO table for this annotation, which was not assembled here.
+- Separating lignin, manganese and versatile peroxidases within class II (for example, by sequence similarity to characterized enzymes), since FungiDB descriptions only say "Class II peroxidase".
+- Re-analysis against a strain-matched, more recent genome annotation if one becomes publicly available.
 
 ## Technologies
 
@@ -98,4 +102,4 @@ SRA Toolkit, fastp, MultiQC, Salmon, R (tximport, DESeq2, ggplot2, ggrepel), tmu
 
 ## Reproducing
 
-Analysis scripts are in `scripts/`. Reference and raw data are not versioned.
+Create the environment from `environment.yml` and run the scripts in `scripts/` from the project root, in this order: `01_prepare_reference.sh`, `02_download_and_trim.sh`, `03_replicate_structure_test.sh`, `04_quantify.sh`, `05_differential_expression.sh`. The 18 runs are listed in `annotation/run_accessions.tsv`. The scripts consolidate the commands used interactively for this analysis. Reference and raw data are not versioned.
