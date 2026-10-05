@@ -4,3 +4,8 @@ results/quant/*/libParams
 results/quant/*/logs
 work/
 .nextflow*
+results/quant_test/
+results/deseq2/dds.rds
+tmp_fq/
+Rplots.pdf
+results/qc/multiqc/multiqc_data/

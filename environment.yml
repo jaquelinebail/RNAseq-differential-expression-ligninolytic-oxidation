@@ -8,4 +8,10 @@ dependencies:
   - salmon
   - multiqc
   - gffread
+  - bioconductor-deseq2
+  - bioconductor-tximport
+  - r-ggplot2
+  - r-jsonlite
+  - r-readr
+  - r-ggrepel
 prefix: /home/jaquebail/miniforge3/envs/rnaseq

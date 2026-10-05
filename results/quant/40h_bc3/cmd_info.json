@@ -1,0 +1,15 @@
+{
+  "salmon_version": "2.8.0",
+  "index": "data/reference/salmon_index",
+  "libType": "A",
+  "output": "results/quant/40h_bc3",
+  "mates1": [],
+  "mates2": [],
+  "unmatedReads": [
+    "data/trimmed/40h_rep1_bc3.trim.fastq.gz",
+    "data/trimmed/40h_rep2_bc3.trim.fastq.gz",
+    "data/trimmed/40h_rep3_bc3.trim.fastq.gz"
+  ],
+  "threads": 8,
+  "sketch": false
+}
